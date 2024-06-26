@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Kuky & Smile</title>
+    <title>Yanbo Zhu Blog</title>
 
     <!-- meta -->
     <meta charset="UTF-8">
@@ -34,7 +34,7 @@
 
             <div class="col-md-4 col-sm-5 col-xs-8">
                 <div class="logo">
-                    <h1><a href="{% url 'blog:home' %}"><b>Kuky</b> &amp; <b>Smile</b></a></h1>
+                    <h1><a href="{% url 'blog_app:home' %}">Yanbo Zhu</a></h1>
                 </div>
             </div><!-- col-md-4 -->
 
@@ -50,10 +50,11 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {# 处理 url 定向，根据 urls 文件中的 name 属性指定 #}
-                            <li class="cl-effect-11"><a href="{% url 'blog:home' %}" data-hover="首页">首页</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog:full' %}" data-hover="博客">博客</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog:about' %}" data-hover="关于">关于</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog:contact' %}" data-hover="联系">联系</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog_app:home' %}" data-hover="Home">Home</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog_app:full' %}" data-hover="Blog">Blog</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog_app:about' %}" data-hover="About">About</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog_app:contact' %}" data-hover="Contact">Contact</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog_app:new_post' %}" data-hover="New">NewPost</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </nav>
@@ -62,8 +63,8 @@
                     <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
                     <div id="search-form" class="search-form">
                         {#          搜索表单处理              #}
-                        <form role="search" method="get" id="searchform" action="{% url 'blog:search' %}">
-                            <input type="search" name="q" placeholder="搜索" required>
+                        <form role="search" method="get" id="searchform" action="{% url 'blog_app:search' %}">
+                            <input type="search" name="q" placeholder="Query" required>
                             <button type="submit"><span class="ion-ios-search-strong"></span></button>
                         </form>
                     </div>
@@ -74,8 +75,8 @@
     </header>
 </div>
 
-<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">网页模板</a></div>
-<div class="copyrights">Modified by <a href="https://github.com/kukyxs">kuky</a></div>
+<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">Web Page Muster</a></div>
+<div class="copyrights">Modified by <a href="https://github.com/Yanbo-Zhu/blog_django_project">Yanbo Zhu</a></div>
 
 <div class="content-body">
     <div class="container">
@@ -90,11 +91,9 @@
             </main>
 
             <aside class="col-md-4">
-                {% block toc %}
-                {% endblock toc %}
 
                 <div class="widget widget-recent-posts">
-                    <h3 class="widget-title">最新文章</h3>
+                    <h3 class="widget-title">The Latest Post</h3>
                     {% get_recent_posts as recent_post_list %}
                     <ul>
                         {% for recent_post in recent_post_list %}
@@ -102,58 +101,55 @@
                                 <a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
                             </li>
                         {% empty %}
-                            暂无文章！
+                            empty！
                         {% endfor %}
 
                     </ul>
                 </div>
 
                 <div class="widget widget-archives">
-                    <h3 class="widget-title">归档</h3>
+                    <h3 class="widget-title">Archives</h3>
                     {% archives as date_list %}
                     <ul>
                         {% for date in date_list %}
                             <li>
-                                <a href="{% url 'blog:archives' date.year %}">{{ date.year }}年</a>
+                                <a href="{% url 'blog_app:archives' date.year %}">Year {{ date.year }} </a>
                             </li>
                         {% empty %}
-                            暂无归档
+                            empty
                         {% endfor %}
                     </ul>
                 </div>
 
                 <div class="widget widget-category">
-                    <h3 class="widget-title">分类</h3>
+                    <h3 class="widget-title">Category</h3>
                     {% get_all_category as category_list %}
                     <ul>
                         {% for category in category_list %}
                             <li>
-                                <a href="{% url 'blog:category' category.pk %}">{{ category.name }}
+                                <a href="{% url 'blog_app:category' category.pk %}">{{ category.name }}
                                     <span class="post-count">({{ category.num_post }})</span></a>
                             </li>
                         {% empty %}
-                            暂无分类
+                            empty！
                         {% endfor %}
-
                     </ul>
                 </div>
 
                 <div class="widget widget-tag-cloud">
-                    <h3 class="widget-title">标签云</h3>
+                    <h3 class="widget-title">Tag</h3>
                     {% get_all_tag as tag_list %}
                     <ul>
                         {% for tag in tag_list %}
                             <li>
-                                <a href="{% url 'blog:tags' tag.pk %}">{{ tag.name }}</a>
+                                <a href="{% url 'blog_app:tags' tag.pk %}">{{ tag.name }}</a>
                             </li>
                         {% empty %}
-                            暂无标签！
+                            empty！
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="rss">
-                    <a href="{% url 'blog:rss' %}"><span class="ion-social-rss-outline"></span> RSS 订阅</a>
-                </div>
+
             </aside>
 
         </div>
@@ -164,7 +160,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <p class="copyright">&copy 2017 - 采集自<a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a>
+                <p class="copyright">&copy;  2024 Yanbo Zhu
                 </p>
             </div>
         </div>
@@ -176,10 +172,11 @@
     <button type="button" class="overlay-close"><span class="ion-ios-close-empty"></span></button>
     <nav>
         <ul>
-            <li><a href="{% url 'blog:home' %}">Home</a></li>
-            <li><a href="{% url 'blog:full' %}">Blog Detail</a></li>
-            <li><a href="{% url 'blog:about' %}">About</a></li>
-            <li><a href="{% url 'blog:contact' %}">Contact</a></li>
+            <li><a href="{% url 'blog_app:home' %}">Home</a></li>
+            <li><a href="{% url 'blog_app:full' %}">Blog</a></li>
+            <li><a href="{% url 'blog_app:about' %}">About</a></li>
+            <li><a href="{% url 'blog_app:contact' %}">Contact</a></li>
+            <li><a href="{% url 'blog_app:new_post' %}">NewPost</a></li>
         </ul>
     </nav>
 </div>
