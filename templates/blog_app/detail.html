@@ -26,4 +26,36 @@
             </ul>
         </div>
     </article>
+
+    <section class="comment-area" id="comment-area">
+        <hr>
+        <h3>New Comment</h3>
+
+        <form action="{% url 'blog_comment:post_comment' post.pk %}" method="post" class="comment-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea name="content" rows="3" placeholder="Content" required></textarea>
+                </div>
+                <div class="col-md-8">
+                    <button type="submit" class="comment-btn">Submit</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <div class="comment-list-panel">
+            <h3>Comment list，All <span>{{ post.comment_set.count }}</span> Comments</h3>
+            <ul class="comment-list list-unstyled">
+                {% for comment in post.comment_set.all%}
+                    <li class="comment-item">
+                        <span class="nickname">{{ comment.author }}</span>
+                        <time class="submit-date">{{ comment.create_time }}</time>
+                        <div class="text">{{ comment.content }}</div>
+                    </li>
+                {% empty %}
+                    no comment yet
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
 {% endblock main %}

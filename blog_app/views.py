@@ -11,10 +11,11 @@ from django.conf import settings
 
 from blog_app.forms import PostForm
 from blog_app.models import Post, Category, Tag
+from django.contrib.auth.models import User
+from blog_comment.forms import CommentForm
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
-
 
 
 # ########################## HomePage ###################################
@@ -82,12 +83,14 @@ def contact(request):
 
 # ########################## NewBlog Page ################################
 # Submit a new blog and post it into Blog system
+@login_required(login_url="/auth/login")
 @require_http_methods(['GET', 'POST'])
 def new_post(request):
     if request.method == 'GET':
         categories = Category.objects.all()
         tags = Tag.objects.all()
-        return render(request, 'blog_app/post_new.html', context={"categories": categories, "tags": tags})
+        auth = User.objects.all()
+        return render(request, 'blog_app/post_new.html', context={"categories": categories, "tags": tags, })
     else:
         form = PostForm(request.POST)
         if form.is_valid():
@@ -95,9 +98,11 @@ def new_post(request):
             body = form.cleaned_data.get('body')
             category = form.cleaned_data.get('category')
             tags = form.cleaned_data.get('tags')
+            author = request.user
+            print(author)
             print(category)
             print(tags)
-            post = Post.objects.create(title=title, body=body, category=category)
+            post = Post.objects.create(title=title, body=body, category=category, author=author)
             post.tags.add(*tags)
             #return JsonResponse({"code": 200, "message": "???????", "data": {"blog_id": post.id}})
             return redirect(post)
@@ -202,9 +207,9 @@ def detail(request, pk):
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
     ])
-    #form = CommentForm()
-    #comment_list = post.comment_set.all()
-    return render(request, "blog_app/detail.html", locals())
+    form = CommentForm()
+    comment_list = post.comment_set.all()
+    return render(request, "blog_app/detail.html", context={"comment_list": comment_list })
 
 
 class PostDetailView(DetailView):
