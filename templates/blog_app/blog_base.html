@@ -1,0 +1,94 @@
+{% extends 'blog_app/blog_base_basic.html' %}
+{% load static %}
+{# include the slef-defeined template tags#}
+{% load blog_tags %}
+
+{% block query-form %}
+    <form role="search" method="get" id="searchform" action="{% url 'blog_app:search' %}">
+        <input type="search" name="q" placeholder="Query" required>
+        <button type="submit"><span class="ion-ios-search-strong"></span></button>
+    </form>
+{% endblock query-form %}
+
+{% block content %}
+    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/">Web Page Muster</a></div>
+    <div class="copyrights">Modified by <a href="https://github.com/Yanbo-Zhu/blog_django_project">Yanbo Zhu</a></div>
+
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+
+                <main class="col-md-8">
+                    {% block main %}
+                        {% if error_msg %}
+                            <p>{{ error_msg }}</p>
+                        {% endif %}
+                    {% endblock main %}
+                </main>
+
+                <aside class="col-md-4">
+
+                    <div class="widget widget-recent-posts">
+                        <h3 class="widget-title">The Latest Post</h3>
+                        {% get_recent_posts as recent_post_list %}
+                        <ul>
+                            {% for recent_post in recent_post_list %}
+                                <li>
+                                    <a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
+                                </li>
+                            {% empty %}
+                                empty！
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                    <div class="widget widget-archives">
+                        <h3 class="widget-title">Archives</h3>
+                        {% archives as date_list %}
+                        <ul>
+                            {% for date in date_list %}
+                                <li>
+                                    <a href="{% url 'blog_app:archives' date.year %}">Year {{ date.year }} </a>
+                                </li>
+                            {% empty %}
+                                empty
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="widget widget-category">
+                        <h3 class="widget-title">Category</h3>
+                        {% get_all_category as category_list %}
+                        <ul>
+                            {% for category in category_list %}
+                                <li>
+                                    <a href="{% url 'blog_app:category' category.pk %}">{{ category.name }}
+                                        <span class="post-count">({{ category.num_post }})</span></a>
+                                </li>
+                            {% empty %}
+                                empty！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="widget widget-tag-cloud">
+                        <h3 class="widget-title">Tag</h3>
+                        {% get_all_tag as tag_list %}
+                        <ul>
+                            {% for tag in tag_list %}
+                                <li>
+                                    <a href="{% url 'blog_app:tags' tag.pk %}">{{ tag.name }}</a>
+                                </li>
+                            {% empty %}
+                                empty！
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

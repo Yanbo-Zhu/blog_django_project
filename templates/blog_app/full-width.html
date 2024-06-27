@@ -1,144 +1,62 @@
+{% extends 'blog_app/blog_base_basic.html' %}
 {% load static  %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Yanbo Zhu</title>
+{% block query-form %}
+    <form role="search" method="get" id="searchform" action="{% url 'blog_app:query' %}">
+        <input type="search" name="_q" placeholder="Query" required>
+        <button type="submit"><span class="ion-ios-search-strong"></span></button>
+    </form>
+{% endblock query-form %}
 
-    <!-- meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- css -->
-    <link rel="stylesheet" href="{% static 'blog_app/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{% static 'blog_app/css/pace.css' %}">
-    <link rel="stylesheet" href="{% static 'blog_app/css/custom.css' %}">
-    <link rel="stylesheet" href="{% static 'blog_app/css/highlights/github.css' %}">
-
-    <!-- js -->
-    <script src="{% static 'blog_app/js/jquery-2.1.3.min.js' %}"></script>
-    <script src="{% static 'blog_app/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'blog_app/js/pace.min.js' %}"></script>
-    <script src="{% static 'blog_app/js/modernizr.custom.js' %}"></script>
-</head>
-
-<body>
-<div class="container">
-    <header id="site-header">
-        <div class="row">
-            <div class="col-md-4 col-sm-5 col-xs-8">
-                <div class="logo">
-                    <h1><a href="{% url 'blog_app:home' %}">Yanbo Zhu</a></h1>
-                </div>
-            </div><!-- col-md-4 -->
-            <div class="col-md-8 col-sm-7 col-xs-4">
-                <nav class="main-nav" role="navigation">
-                    <div class="navbar-header">
-                        <button type="button" id="trigger-overlay" class="navbar-toggle">
-                            <span class="ion-navicon"></span>
-                        </button>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="cl-effect-11"><a href="{% url 'blog_app:home' %}" data-hover="Home">Home</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog_app:full' %}" data-hover="Blog">Blog</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog_app:about' %}" data-hover="About">About</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog_app:contact' %}" data-hover="Contact">Contact</a></li>
-                            <li class="cl-effect-11"><a href="{% url 'blog_app:new_post' %}" data-hover="New">NewPost</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </nav>
-                <div id="header-search-box">
-                    <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
-                    <div id="search-form" class="search-form">
-                        <form role="search" method="get" id="searchform" action="{% url 'blog_app:query' %}">
-                            <input type="search" name="_q" placeholder="Query" required>
-                            <button type="submit"><span class="ion-ios-search-strong"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div><!-- col-md-8 -->
-        </div>
-    </header>
-</div>
-
-<div class="content-body">
-    <div class="container">
-        <div class="row">
-            <main class="col-md-12">
-                {% for post in post_list %}
-                    <article class="post post-{{ post.pk }}">
-                        <header class="entry-header">
-                            <h1 class="entry-title">
-                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                            </h1>
-                            <div class="entry-meta">
+{% block content %}
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-12">
+                    {% for post in post_list %}
+                        <article class="post post-{{ post.pk }}">
+                            <header class="entry-header">
+                                <h1 class="entry-title">
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                </h1>
+                                <div class="entry-meta">
                     <span class="post-category"><a
                             href="{% url 'blog_app:category' post.category.pk %}">{{ post.category.name }}</a></span>
-                                <span class="post-date"><a href=""><time class="entry-date"
-                                                                         datetime="2012-11-09T23:15:57+00:00">{{ post.create_time }}</time></a></span>
-                                <span class="post-author"><a href="">{{ post.author }}</a></span>
-                                <span class="views-count"><a href="">{{ post.views }} views</a></span>
+                                    <span class="post-date"><a href=""><time class="entry-date"
+                                                                             datetime="2012-11-09T23:15:57+00:00">{{ post.create_time }}</time></a></span>
+                                    <span class="post-author"><a href="">{{ post.author }}</a></span>
+                                    <span class="views-count"><a href="">{{ post.views }} views</a></span>
+                                </div>
+                            </header>
+                            <div class="entry-content clearfix">
+                                <p>{{ post.excerpt }}...</p>
+                                <div class="read-more cl-effect-14">
+                                    <a href="{{ post.get_absolute_url }}" class="more-link">read further<span
+                                            class="meta-nav">→</span></a>
+                                </div>
                             </div>
-                        </header>
-                        <div class="entry-content clearfix">
-                            <p>{{ post.excerpt }}...</p>
-                            <div class="read-more cl-effect-14">
-                                <a href="{{ post.get_absolute_url }}" class="more-link">read further<span
-                                        class="meta-nav">→</span></a>
-                            </div>
+                        </article>
+                    {% empty %}
+                        <div class="no-post">no post</div>
+                    {% endfor %}
+
+                    {% if is_paginated %}
+                        <div class="pagination-simple">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"> << </a>
+                                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+
+                            <span class="current">  (Page  {{ page_obj.number }}  of  {{ paginator.num_pages }})  </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                                <a href="?page={{ paginator.num_pages }}"> >> </a>
+                            {% endif %}
                         </div>
-                    </article>
-                {% empty %}
-                    <div class="no-post">no post</div>
-                {% endfor %}
-
-                {% if is_paginated %}
-                    <div class="pagination-simple">
-                        {% if page_obj.has_previous %}
-                            <a href="?page=1"> << </a>
-                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                        {% endif %}
-
-                        <span class="current">  (Page  {{ page_obj.number }}  of  {{ paginator.num_pages }})  </span>
-
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                            <a href="?page={{ paginator.num_pages }}"> >> </a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </main>
-        </div>
-    </div>
-</div>
-<footer id="site-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p class="copyright">&copy;  2024 Yanbo Zhu</p>
+                    {% endif %}
+                </main>
             </div>
         </div>
     </div>
-</footer>
-
-<!-- Mobile Menu -->
-<div class="overlay overlay-hugeinc">
-    <button type="button" class="overlay-close"><span class="ion-ios-close-empty"></span></button>
-    <nav>
-        <ul>
-            <li><a href="{% url 'blog_app:home' %}">Home</a></li>
-            <li><a href="{% url 'blog_app:full' %}">Blog</a></li>
-            <li><a href="{% url 'blog_app:about' %}">About</a></li>
-            <li><a href="{% url 'blog_app:contact' %}">Contact</a></li>
-            <li><a href="{% url 'blog_app:new_post' %}">NewPost</a></li>
-        </ul>
-    </nav>
-</div>
-
-<script src="{% static 'blog_app/js/script.js' %}"></script>
-
-</body>
-</html>
+{% endblock content %}
