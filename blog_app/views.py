@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
+from django.conf import settings
 
 from blog_app.forms import PostForm
 from blog_app.models import Post, Category, Tag
@@ -71,20 +72,13 @@ def contact(request):
         subject = 'Email from ' + email.get("name") + ': ' + email.get("subject")
         body = email.get("message")
         email_addresse = email.get("email")
-        print(subject)
-        print(body)
-        print(email_addresse)
-
-        send_mail('subject', 'body asdasdsadsadsadasd', 'bigberlin200@gmail.com', ['bigberlin100@gmail.com'], fail_silently=False)
+        send_mail(subject, body, settings.EMAIL_HOST_USER, [email_addresse], fail_silently=False)
 
         #email = EmailMessage('subject', 'body', to=['bigberlin100@gmail.com'])
-
         #email = EmailMessage(subject, body, to=[email_addresse])
         #email.send()
-
+        print("Email sent successfully")
         return render(request, 'blog_app/contact.html', None)
-
-
 
 # ########################## NewBlog Page ################################
 # Submit a new blog and post it into Blog system
