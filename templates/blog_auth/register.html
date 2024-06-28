@@ -1,0 +1,28 @@
+{% extends 'blog_auth/auth_basepage.html' %}
+{% load static %}
+
+{% block content %}
+    <main class='container p-4 rounded bg-white'>
+        <div class="mt-3 form-auth m-auto">
+            <h1>Please Register</h1>
+            <form action="#" method="post" class="mt-3">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" placeholder="Please enter username which has length between 2 and 20" class='form-control'>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" placeholder="Please enter Email addresse" class='form-control'>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" placeholder="Please enter the password which has length between 8 and 20" class='form-control'>
+                </div>
+                <div class='mb-3'>
+                    <button class='btn btn-primary w-100'>Submit</button>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

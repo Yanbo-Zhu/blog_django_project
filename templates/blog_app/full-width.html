@@ -1,0 +1,62 @@
+{% extends 'blog_app/blog_base_basic.html' %}
+{% load static  %}
+
+{% block query-form %}
+    <form role="search" method="get" id="searchform" action="{% url 'blog_app:query' %}">
+        <input type="search" name="_q" placeholder="Query" required>
+        <button type="submit"><span class="ion-ios-search-strong"></span></button>
+    </form>
+{% endblock query-form %}
+
+{% block content %}
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-12">
+                    {% for post in post_list %}
+                        <article class="post post-{{ post.pk }}">
+                            <header class="entry-header">
+                                <h1 class="entry-title">
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                </h1>
+                                <div class="entry-meta">
+                    <span class="post-category"><a
+                            href="{% url 'blog_app:category' post.category.pk %}">{{ post.category.name }}</a></span>
+                                    <span class="post-date"><a href=""><time class="entry-date"
+                                                                             datetime="2012-11-09T23:15:57+00:00">{{ post.create_time }}</time></a></span>
+                                    <span class="post-author"><a href="">{{ post.author }}</a></span>
+                                    <span class="views-count"><a href="">{{ post.views }} views</a></span>
+                                </div>
+                            </header>
+                            <div class="entry-content clearfix">
+                                <p>{{ post.excerpt }}...</p>
+                                <div class="read-more cl-effect-14">
+                                    <a href="{{ post.get_absolute_url }}" class="more-link">read further<span
+                                            class="meta-nav">→</span></a>
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        <div class="no-post">no post</div>
+                    {% endfor %}
+
+                    {% if is_paginated %}
+                        <div class="pagination-simple">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1"> << </a>
+                                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+
+                            <span class="current">  (Page  {{ page_obj.number }}  of  {{ paginator.num_pages }})  </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                                <a href="?page={{ paginator.num_pages }}"> >> </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
