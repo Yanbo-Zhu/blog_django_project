@@ -23,4 +23,5 @@ urlpatterns = [
     re_path(r'^blog/', include('blog_app.urls', namespace="blog_app")),
     re_path(r'^auth/', include('blog_auth.urls', namespace="blog_auth")),
     re_path(r'^comment/', include('blog_comment.urls', namespace="blog_comment")),
+    re_path(r'^api/', include('blog_api.urls', namespace="blog_api")),
 ]

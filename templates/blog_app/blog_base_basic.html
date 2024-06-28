@@ -1,4 +1,7 @@
+<!-- This html file defines the top bar of Page -->
+
 {% load static %}
+
 {# include the slef-defeined template tags#}
 {% load blog_tags %}
 
@@ -35,7 +38,7 @@
                 <div class="logo">
                     <h1><a href="{% url 'blog_app:home' %}">Hello, {{user}} </a></h1>
                 </div>
-            </div><!-- col-md-4 -->
+            </div>
 
             <div class="col-md-8 col-sm-7 col-xs-4">
 
@@ -48,7 +51,7 @@
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            {# 处理 url 定向，根据 urls 文件中的 name 属性指定 #}
+                            {# Handling URL redirection by specifying the target using the name attribute from the urls.py file. #}
                             <li class="cl-effect-11"><a href="{% url 'blog_app:home' %}" data-hover="Home">Home</a></li>
                             <li class="cl-effect-11"><a href="{% url 'blog_app:full' %}" data-hover="Blog">Blog</a></li>
                             <li class="cl-effect-11"><a href="{% url 'blog_app:about' %}" data-hover="About">About</a></li>
@@ -56,7 +59,7 @@
                             <li class="cl-effect-11"><a href="{% url 'blog_app:new_post' %}" data-hover="New">NewPost</a></li>
                             <li class="cl-effect-11"><a href="{% url 'blog_auth:logout' %}" data-hover="Logout">Logout</a></li>
                         </ul>
-                    </div><!-- /.navbar-collapse -->
+                    </div>
                 </nav>
 
                 <div id="header-search-box">
@@ -66,7 +69,7 @@
                         {% endblock query-form %}
                     </div>
                 </div>
-            </div><!-- col-md-8 -->
+            </div>
 
         </div>
     </header>
