@@ -51,23 +51,23 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
 
 ## Main View
 - admin
-  - [admin page](http://127.0.0.1:8000/admin)
+  - [admin page](http://127.0.0.1:8000/admin): http://127.0.0.1:8000/admin
 - blog_app
-  - [Home Page](http://127.0.0.1:8000/blog/home)
-  - [Blog List](http://127.0.0.1:8000/blog/full)
-  - [About me](http://127.0.0.1:8000/blog/about/)
-  - [Contact me](http://127.0.0.1:8000/blog/contact/)
-  - [Post new ](http://127.0.0.1:8000/blog/contact/)
+  - [Home Page](http://127.0.0.1:8000/blog/home): http://127.0.0.1:8000/blog/home
+  - [Blog List](http://127.0.0.1:8000/blog/full): http://127.0.0.1:8000/blog/full
+  - [About me](http://127.0.0.1:8000/blog/about/): http://127.0.0.1:8000/blog/about/
+  - [Contact me](http://127.0.0.1:8000/blog/contact/): http://127.0.0.1:8000/blog/contact/
+  - [Post new ](http://127.0.0.1:8000/blog/post/new/): http://127.0.0.1:8000/blog/post/new/
 - blog_auth
-  - [login](http://127.0.0.1:8000/auth/login)
-  - [register](http://127.0.0.1:8000/auth/register)
-  - [logout](http://127.0.0.1:8000/auth/logout): logout the current user and redirect to the login page auotmatically
+  - [login](http://127.0.0.1:8000/auth/login): http://127.0.0.1:8000/auth/login
+  - [register](http://127.0.0.1:8000/auth/register): http://127.0.0.1:8000/auth/register)
+  - [logout](http://127.0.0.1:8000/auth/logout): http://127.0.0.1:8000/auth/logout, logout the current user and redirect to the login page auotmatically
 - blog_api
-  - [api list](http://127.0.0.1:8000/api/): show all api
-  - [posts](http://127.0.0.1:8000/api/posts/): show all posts
-  - [categories](http://127.0.0.1:8000/api/categories/): show all categories
-  - [tags](http://127.0.0.1:8000/api/tags/): show all tags
-  - [users](http://127.0.0.1:8000/api/users/): show all users
+  - [api list](http://127.0.0.1:8000/api/): http://127.0.0.1:8000/api/, show all api
+  - [posts](http://127.0.0.1:8000/api/posts/): http://127.0.0.1:8000/api/posts/, show all posts
+  - [categories](http://127.0.0.1:8000/api/categories/): http://127.0.0.1:8000/api/categories/, show all categories
+  - [tags](http://127.0.0.1:8000/api/tags/): http://127.0.0.1:8000/api/tags/), show all tags
+  - [users](http://127.0.0.1:8000/api/users/): http://127.0.0.1:8000/api/users/, show all users
 
 View map
 ![](readme_picture/view_map.png)
@@ -257,4 +257,4 @@ Attributes
 @Coding=UTF-8  
 @Auther:Yanbo Zhu
 @Time:2024-06  
-@ProjectName:Personal Blog
+@ProjectName:Personal Blog System
