@@ -63,6 +63,7 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
   - [register](http://127.0.0.1:8000/auth/register)
   - [logout](http://127.0.0.1:8000/auth/logout): logout the current user and redirect to the login page auotmatically
 - blog_api
+  - [api list](http://127.0.0.1:8000/api/): show all api
   - [posts](http://127.0.0.1:8000/api/posts/): show all posts
   - [categories](http://127.0.0.1:8000/api/categories/): show all categories
   - [tags](http://127.0.0.1:8000/api/tags/): show all tags
