@@ -1,3 +1,5 @@
+<!-- This html file defines the area of blogs  in Home page -->
+
 {% extends 'blog_app/blog_base.html' %}
 {% load blog_tags %}
 
@@ -23,12 +25,13 @@
                     <a href="{{ post.get_absolute_url }}" class="more-link">read further<span class="meta-nav">→</span></a>
                 </div>
             </div>
+            <hr>
         </article>
     {% empty %}
         <div class="no-post"> no post！</div>
     {% endfor %}
 
-    {# ...根据 Paginator 生成分页... #}
+    {# Paging according to Paginator #}
 
     {% if is_paginated %}
         <div class="pagination-simple">

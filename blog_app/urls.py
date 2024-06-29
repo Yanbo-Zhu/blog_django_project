@@ -30,7 +30,4 @@ urlpatterns = [
 
     #re_path(r'^tag/(?P<pk>[0-9]+)/$', views.tags, name='tags'),
     re_path(r'^tag/(?P<pk>[0-9]+)/$', views.TagView.as_view(), name='tags'),
-
-
-
 ]

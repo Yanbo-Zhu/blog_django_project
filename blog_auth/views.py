@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 User_all = get_user_model()
 
+# login view
 @require_http_methods(['GET', 'POST'])
 def to_login(request):
     if request.method == 'GET':
@@ -25,26 +26,24 @@ def to_login(request):
 
             user = User_all.objects.filter(username=username).first()
             if user and user.check_password(password):
-                # ??
+                # to login
                 login(request, user)
-                # ?????????
+                # to judge remember me
                 if not remember:
-                    # ?????????????????????0????????????
+                    # if not remember me, set the expiry time to 0, that is, it will expire after the browser is closed
                     request.session.set_expiry(0)
-                # ????????????????????2??????
+                # if clicked, do nothing, use the default 2-week expiration time
                 return redirect(reverse('blog_app:home'))
             else:
                 print('Login failed!')
-                # form.add_error('email', 'Password or Username failed?')
-                # return render(request, 'login.html', context={"form": form})
                 return redirect(reverse('blog_auth:login'))
 
-
+# logout view
 def to_logout(request):
     logout(request)
     return redirect('/auth/login')
 
-
+# register view
 @require_http_methods(['GET', 'POST'])
 def to_register(request):
     if request.method == 'GET':
@@ -60,4 +59,3 @@ def to_register(request):
         else:
             print(form.errors)
             return redirect(reverse('blog_auth:register'))
-            # return render(request, 'register.html', context={"form": form})

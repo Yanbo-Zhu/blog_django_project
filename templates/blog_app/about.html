@@ -1,7 +1,6 @@
 {% extends 'blog_app/blog_base_basic.html' %}
 {% load static %}
 
-
 {% block query-form %}
     <form role="search" method="get" id="searchform" action="#">
         <input type="search" placeholder="Search" required>
@@ -18,9 +17,30 @@
                     <article class="post">
                         <div class="entry-content clearfix">
                             <figure class="img-responsive-center">
-                                <img class="img-responsive" src="{% static 'blog/img/img.jpg' %}" alt="Developer Image">
+                                <img class="img-responsive" width="30%" height="30%" src="{% static 'blog_app/img/YanboZhu.jpg' %}" alt="Developer Image">
                             </figure>
-                            <p>TBD</p>
+                            <p>Welcome to my personal introduction page. I am currently Cloud Devops and Test automation Engineer in IVU Traffic Technologies</p>
+                            <li> I would like to dive deeper into Cloud underlying infrastructure development, networking, and distributed computing</li>
+                            <p>Here are a few things about me:</p>
+                            <ul>
+                                <li><strong>Education</strong> </li>
+                                <ul>
+                                    <li>Bachelor, China, Elektrotechnik</li>
+                                    <li>Master, TU Berlin, Elektrotechnik</li>
+                                    <li>Bachelor, Berlin Universitaet fuer Technik, Medieninformation</li>
+                                </ul>
+                                <li><strong>Skill</strong> </li>
+                                <ul>
+                                    <li><strong>Cloud:</strong> AWS (S3, EKS, EC2, Route53)</li>
+                                    <li><strong>Automating deployment: </strong>Terraform, Docker, Kubernetes, Helm</li>
+                                    <li><strong>Devops:</strong> Puppet, Jenkins, Rundeck</li>
+                                    <li><strong>Test Automation:</strong>Ranorex, Fitnesse</li>
+                                    <li><strong>Loging and data analysis</strong>ELK</li>
+                                </ul>
+
+                            </ul>
+                            <p>If you would like to connect or have any questions, feel free to reach out to me through <a href="{% url 'blog_app:contact' %}">contact form</a></p>
+
                             <div class="height-40px"></div>
                             <h2 class="title text-center">Social</h2>
                             <ul class="social">

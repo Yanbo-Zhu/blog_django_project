@@ -1,5 +1,7 @@
+<!-- This html file defines the List page of all pages -->
+
 {% extends 'blog_app/blog_base_basic.html' %}
-{% load static  %}
+{% load static %}
 
 {% block query-form %}
     <form role="search" method="get" id="searchform" action="{% url 'blog_app:query' %}">
@@ -35,11 +37,13 @@
                                             class="meta-nav">→</span></a>
                                 </div>
                             </div>
+                            <hr>
                         </article>
                     {% empty %}
                         <div class="no-post">no post</div>
                     {% endfor %}
 
+                    {# Paging according to Paginator #}
                     {% if is_paginated %}
                         <div class="pagination-simple">
                             {% if page_obj.has_previous %}

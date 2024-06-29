@@ -13,7 +13,8 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        db_table = "category"  # define the table name with 'category', the default valuie is 'blog-category'
+        # define the table name with 'category'
+        db_table = "category"
         ordering =  ['-id']
 
 # Tag of post
@@ -35,8 +36,8 @@ class Post(models.Model):
     excerpt = models.CharField(max_length=200, blank=True)
     views = models.PositiveIntegerField(default=0)  # how many times this post is viewed
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, blank=True)
+    category = models.ForeignKey(Category, related_name='posts', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
     author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE, blank=True)
 
 
