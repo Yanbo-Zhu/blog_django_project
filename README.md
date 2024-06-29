@@ -1,4 +1,44 @@
-# blog_django_project
+# Blog_Django_Project
+
+<HR>
+
+- [Blog_Django_Project](#blog-django-project)
+  * [Projekt Description](#projekt-description)
+  * [System Dependency](#system-dependency)
+  * [Depolyment process](#depolyment-process)
+  * [Main View](#main-view)
+  * [Usage](#usage)
+    + [Login and Register](#login-and-register)
+    + [Blog System](#blog-system)
+      - [Home Page](#home-page)
+      - [Post Detail Page](#post-detail-page)
+      - [Blog List](#blog-list)
+      - [About me](#about-me)
+      - [Contact me](#contact-me)
+      - [Post New](#post-new)
+      - [Search and Logout](#search-and-logout)
+  * [Administration System](#administration-system)
+  * [Authentication](#authentication)
+  * [Restful API](#restful-api)
+  * [Database](#database)
+    + [blog_app](#blog-app)
+      - [Table: Post](#table--post)
+      - [Table: Tag](#table--tag)
+      - [Table: Category](#table--category)
+    + [blog_comment](#blog-comment)
+      * [Table: Comment](#table--comment)
+  * [Other](#other)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
+## Projekt Description
+Through this Django project we can deploy a personal blog.
+
+It is a pure Django project without frontend and backend separation. 
+
+SQLite is used as Database
+
 
 ## System Dependency
 Python3, Django and Third Party Dependency ( written in requirements.txt)
@@ -8,12 +48,6 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
 1. Install the thrid-party Library according to requirements.txt: `pip install -R requirement.txt`
 2. run Django Project through execute `python manage.py runserver 8000`
 
-## Projekt Description
-Through this Django project we can deploy a personal blog.
-
-It is a pure Django project without frontend and backend separation. 
-
-SQLite is used as Database
 
 ## Main View
 - admin
@@ -72,9 +106,11 @@ The navigation bar is shown in the right side of the Home Page. The option blow 
 
 ![](readme_picture/blog_app/01_homePage.png)
 
-#### Detail Page of one Post
+#### Post Detail Page 
 
 The detail of the post is shown in the Detail Page of one Post. You can see the title, the author, the create time, the modified time, the category, the tags and the content of the post. 
+
+The view number of the post is shown blow the title of the post. The view number will be increased by 1 every time you enter the detail page of the post.
 
 The comments of the post are shown below the post. You can add a comment to the post if you have logged in. The comments are paginated by 10 comments per page.
 
@@ -94,7 +130,16 @@ A Email form is shown in the Contact me page. You can send an email to the Host 
 ![](readme_picture/blog_app/05_contactMe.png)
 
 
-#### Post new
+The email is sent through the SMTP server. The SMTP server is set in the settings.py of project. **In order to enable sending Email, you have to change the SMTP server by changing the following code in the settings.py**. The authtiocation of the SMTP server is required and is your email address and the password of the email address.
+
+```angular2html
+EMAIL_PORT = '<EMAIL_PORT>'
+EMAIL_HOST = '<EMAIL_HOST>'
+EMAIL_HOST_USER = '<Email_Addresse>'
+EMAIL_HOST_PASSWORD = '<sensetive_data>'
+```
+
+#### Post New
 
 if you want to create a new post, you need to login first. Otherwise, you will be redirected to the login page.
 
@@ -112,7 +157,9 @@ In the main bar you can also search the post by title or content and logout the 
 
 After logout, you will be redirected to the login page.
 
-### Administration System
+![](readme_picture/blog_app/07_searchAndLogout.png)
+
+## Administration System
 
 The administration system is accessible through the link of the admin page in the main bar. You can login with the superuser account or other user to manage the blog system.
 
@@ -120,7 +167,12 @@ The administration system is accessible through the link of the admin page in th
 
 ![](readme_picture/admin/02_adminContent.png)
 
-#### available User
+
+## Authentication
+
+Once you register a new user through Register page, this new created user will be registered into the Built-in User table of Django. The password of the user is hashed by the Django built-in hash function. The password is not stored in the database directly.
+
+The User below are available in the system. You can login with the username and the password below. Or you can also create a new user through the Register page.
 
 | username | password  | email                  | permission  |
 |----------|-----------|------------------------|-------------|
@@ -130,7 +182,7 @@ The administration system is accessible through the link of the admin page in th
 | Jens     | django123 | bigberlin400@gmail.com | normal user   |
 | Florian  | django123 | bigberlin500@gmail.com | normal user   |
 
-# Restful API
+## Restful API
 
 The Restful API is accessible through the link of the api page in the main bar. You can see all posts, categories, tags and users through the api page.
 
@@ -142,7 +194,6 @@ you can filter the result by the following query parameters:
 - categories: filter the categories by name
 - tags: filter the tags by name
 - users: filter the users by username
-
 
 
 posts:
@@ -188,7 +239,7 @@ Category of post
 Attributes
 - name: name of category
 
-### blog_app
+### blog_comment
 ##### Table: Comment
 Comment of post
 

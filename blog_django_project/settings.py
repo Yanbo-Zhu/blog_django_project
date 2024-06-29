@@ -153,7 +153,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+#EMAIL_PORT = "587"
+#EMAIL_HOST = '<EMAIL_HOST>'
+#EMAIL_HOST_USER = '<Email Addresse>'
+#EMAIL_HOST_PASSWORD = '<sensetive data>'
+
 EMAIL_PORT = 25
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_HOST_USER = 'ybzhu910613@163.com'
 EMAIL_HOST_PASSWORD = '<sensetive data>'
+
+
+

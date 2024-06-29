@@ -80,7 +80,7 @@ def contact(request):
         subject = 'Email from ' + email.get("name") + ': ' + email.get("subject")
         body = email.get("message")
         email_addresse = email.get("email")
-        send_mail(subject, body, settings.EMAIL_HOST_USER, [email_addresse], fail_silently=False)
+        send_mail(subject, body, settings.EMAIL_HOST_USER, [email_addresse, settings.EMAIL_HOST_USER], fail_silently=False)
 
         print("Email sent successfully")
         return render(request, 'blog_app/contact.html', None)
