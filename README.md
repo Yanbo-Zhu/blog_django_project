@@ -46,7 +46,7 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
 
 ## Depolyment process
 
-1. Install the thrid-party Library according to requirements.txt: `pip install -R requirement.txt`
+1. Install the thrid-party Library according to requirements.txt: `pip install -r requirements.txt`
 2. run Django Project through execute `python manage.py runserver 8000`
 
 
