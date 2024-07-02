@@ -11,13 +11,16 @@
     + [Login and Register](#login-and-register)
     + [Blog System](#blog-system)
       - [Home Page](#home-page)
-      - [Post Detail Page](#post-detail-page)
+      - [Post Detail Page and Comment](#post-detail-page-and-comment)
       - [Blog List](#blog-list)
       - [About me](#about-me)
       - [Contact me](#contact-me)
       - [Post New](#post-new)
       - [Search and Logout](#search-and-logout)
   * [Administration System](#administration-system)
+  * [Static Content and Template](#static-content-and-template)
+    + [Template in setting.py](#template-in-settingpy)
+    + [Static Content in setting.py](#static-content-in-settingpy)
   * [Authentication](#authentication)
   * [Restful API](#restful-api)
   * [Database](#database)
@@ -28,8 +31,6 @@
     + [blog_comment](#blog-comment)
       * [Table: Comment](#table--comment)
   * [Other](#other)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 ## Projekt Description
@@ -52,16 +53,18 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
 ## Main View
 - admin
   - [admin page](http://127.0.0.1:8000/admin): http://127.0.0.1:8000/admin
+- blog_auth
+  - [login](http://127.0.0.1:8000/auth/login): http://127.0.0.1:8000/auth/login
+  - [register](http://127.0.0.1:8000/auth/register): http://127.0.0.1:8000/auth/register)
+  - [logout](http://127.0.0.1:8000/auth/logout): http://127.0.0.1:8000/auth/logout, logout the current user and redirect to the login page auotmatically
 - blog_app
   - [Home Page](http://127.0.0.1:8000/blog/home): http://127.0.0.1:8000/blog/home
   - [Blog List](http://127.0.0.1:8000/blog/full): http://127.0.0.1:8000/blog/full
   - [About me](http://127.0.0.1:8000/blog/about/): http://127.0.0.1:8000/blog/about/
   - [Contact me](http://127.0.0.1:8000/blog/contact/): http://127.0.0.1:8000/blog/contact/
   - [Post new ](http://127.0.0.1:8000/blog/post/new/): http://127.0.0.1:8000/blog/post/new/
-- blog_auth
-  - [login](http://127.0.0.1:8000/auth/login): http://127.0.0.1:8000/auth/login
-  - [register](http://127.0.0.1:8000/auth/register): http://127.0.0.1:8000/auth/register)
-  - [logout](http://127.0.0.1:8000/auth/logout): http://127.0.0.1:8000/auth/logout, logout the current user and redirect to the login page auotmatically
+- blog_comment
+  - [comment](http://127.0.0.1:8000/blog/comment/post/<post_pk>): http://127.0.0.1:8000/blog/comment/post/<post_pk>, show all comments of the post with the post_pk
 - blog_api
   - [api list](http://127.0.0.1:8000/api/): http://127.0.0.1:8000/api/, show all api
   - [posts](http://127.0.0.1:8000/api/posts/): http://127.0.0.1:8000/api/posts/, show all posts
@@ -107,13 +110,13 @@ The navigation bar is shown in the right side of the Home Page. The option blow 
 
 ![](readme_picture/blog_app/01_homePage.png)
 
-#### Post Detail Page 
+#### Post Detail Page and Comment
 
 The detail of the post is shown in the Detail Page of one Post. You can see the title, the author, the create time, the modified time, the category, the tags and the content of the post. 
 
 The view number of the post is shown blow the title of the post. The view number will be increased by 1 every time you enter the detail page of the post.
 
-The comments of the post are shown below the post. You can add a comment to the post if you have logged in. The comments are paginated by 10 comments per page.
+The comments of the post are shown below the post. You can add a comment to the post if you have logged in. The comments are paginated by 10 comments per page. In order to add a comment, you have to login first. Otherwise, you will be redirected to the login page.
 
 ![](readme_picture/blog_app/02_BlogDetail.png)
 
@@ -167,6 +170,51 @@ The administration system is accessible through the link of the admin page in th
 ![](readme_picture/admin/01_adminLogin.png)
 
 ![](readme_picture/admin/02_adminContent.png)
+
+## Static Content and Template 
+
+The static content and the template are stored in the static folder and the template folder respectively. All of them are stored in their own public shared folder beneath the root folder of the project. But in the public shared folder, they are stored in the folder of the app they belong to.
+
+The static content and the template are used in the blog system. The static content is used for the css and the js file. The template is used for the html file.
+
+The static content and the template are loaded in the settings.py of the project. The static content is loaded through the STATICFILES_DIRS and the template is loaded through the TEMPLATES.
+
+### Template in setting.py
+
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates']  # public shared templates folder for all apps in the project
+        ,
+        'APP_DIRS': True, # If True, Django will look for templates in each app's templates folder
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins':['django.templatetags.static']
+        },
+    },
+]
+```
+
+### Static Content in setting.py
+
+```python
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = 'static/' # The URL to use when referring to static files located in STATIC_ROOT.
+
+STATIC_ROOT = os.path.join(BASE_DIR, "collect_static/") # The absolute path to the directory where collectstatic will collect static files for deployment.
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"), # The list of directories where Django looks for static files to collect.
+]
+```
+
+
 
 
 ## Authentication

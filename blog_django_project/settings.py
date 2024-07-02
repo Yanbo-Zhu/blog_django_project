@@ -63,9 +63,9 @@ ROOT_URLCONF = 'blog_django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'templates']  # public shared templates folder for all apps in the project
         ,
-        'APP_DIRS': True,
+        'APP_DIRS': True, # If True, Django will look for templates in each app's templates folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins':['django.templatetags.static']
         },
     },
 ]
@@ -135,12 +136,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' # The URL to use when referring to static files located in STATIC_ROOT.
 
-STATIC_ROOT = os.path.join(BASE_DIR, "collect_static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "collect_static/") # The absolute path to the directory where collectstatic will collect static files for deployment.
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static"), # The list of directories where Django looks for static files to collect.
 ]
 
 # Default primary key field type
