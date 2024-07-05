@@ -7,8 +7,16 @@
   * [System Dependency](#system-dependency)
   * [Depolyment process](#depolyment-process)
   * [Main View](#main-view)
+  * [Database](#database)
+    + [blog_app](#blog-app)
+      - [Table: Post](#table--post)
+      - [Table: Tag](#table--tag)
+      - [Table: Category](#table--category)
+    + [blog_comment](#blog-comment)
+        * [Table: Comment](#table--comment)
   * [Usage](#usage)
     + [Login and Register](#login-and-register)
+      - [Authentication](#authentication)
     + [Blog System](#blog-system)
       - [Home Page](#home-page)
       - [Post Detail Page and Comment](#post-detail-page-and-comment)
@@ -21,16 +29,9 @@
   * [Static Content and Template](#static-content-and-template)
     + [Template in setting.py](#template-in-settingpy)
     + [Static Content in setting.py](#static-content-in-settingpy)
-  * [Authentication](#authentication)
   * [Restful API](#restful-api)
-  * [Database](#database)
-    + [blog_app](#blog-app)
-      - [Table: Post](#table--post)
-      - [Table: Tag](#table--tag)
-      - [Table: Category](#table--category)
-    + [blog_comment](#blog-comment)
-      * [Table: Comment](#table--comment)
   * [Other](#other)
+
 
 
 ## Projekt Description
@@ -55,7 +56,7 @@ Python3, Django and Third Party Dependency ( written in requirements.txt)
   - [admin page](http://127.0.0.1:8000/admin): http://127.0.0.1:8000/admin
 - blog_auth
   - [login](http://127.0.0.1:8000/auth/login): http://127.0.0.1:8000/auth/login
-  - [register](http://127.0.0.1:8000/auth/register): http://127.0.0.1:8000/auth/register)
+  - [register](http://127.0.0.1:8000/auth/register): http://127.0.0.1:8000/auth/register
   - [logout](http://127.0.0.1:8000/auth/logout): http://127.0.0.1:8000/auth/logout, logout the current user and redirect to the login page auotmatically
 - blog_app
   - [Home Page](http://127.0.0.1:8000/blog/home): http://127.0.0.1:8000/blog/home
@@ -76,6 +77,50 @@ View map
 ![](readme_picture/view_map.png)
 
 
+## Database
+
+Only in the Application blog_app, blog_comment, the new Data class are registered in the models.py. The tables are created in the database through the migration. The migration is done by the command `python manage.py makemigrations` and `python manage.py migrate`. Once they are executed, the tables are created in the database.
+
+### blog_app
+#### Table: Post
+The Post in the Blog System
+
+Attributes
+- title: title of the post
+- body: content of the post
+- create_time: create time of the post
+- modified_time: modified time of the post
+- excerpt: if empty, the first 50 characters of body is used
+- views: how many times this post is viewed
+- category: As ForeignKey to table Category
+- tags: mapping to the name in the table Tag
+- author = As ForeignKey to table User
+
+#### Table: Tag
+Tag of post
+
+Attributes
+- name: name of tag
+
+#### Table: Category
+Category of post
+
+Attributes
+- name: name of category
+
+### blog_comment
+##### Table: Comment
+Comment of post
+
+Attributes
+- author: ForeignKey to User
+- email: email of the author
+- url: url of the author
+- text: content of the comment
+- create_time: create time of the comment
+- post: ForeignKey to Post
+
+
 ## Usage 
 
 ### Login and Register
@@ -90,6 +135,20 @@ In the register mode, you need to set the username, the password and the email. 
 ![](readme_picture/blog_auth/02_register.png)
 
 Moreover, you can also enter to the Home page and The Page for creating new post directly through the main bar. Enter the Home page you don't need to login. But if you want to create a new post, you need to login first. Otherwise, you will be redirected to the login page.
+
+#### Authentication
+
+Once you register a new user through Register page, this new created user will be registered into the Built-in User table of Django. The password of the user is hashed by the Django built-in hash function. The password is not stored in the database directly.
+
+The User below are available in the system. You can login with the username and the password below. Or you can also create a new user through the Register page.
+
+| username | password  | email                  | permission  |
+|----------|-----------|------------------------|-------------|
+| admin    | django123 | bigberlin100@gmail.com | superuser   |
+| Thomas   | django123 | bigberlin200@gmail.com | normal user |
+| Dylan    | django123 | bigberlin300@gmail.com | normal user   |
+| Jens     | django123 | bigberlin400@gmail.com | normal user   |
+| Florian  | django123 | bigberlin500@gmail.com | normal user   |
 
 
 ### Blog System
@@ -147,9 +206,9 @@ EMAIL_HOST_PASSWORD = '<sensetive_data>'
 
 if you want to create a new post, you need to login first. Otherwise, you will be redirected to the login page.
 
-After you have already logged in, you can create a new post through the Post new page. You can set the title, the category, the tags and the content of the post. The category and the tags are selectable. You can also add a new category or a new tag. 
+After you have already logged in, you can create a new post through the Post new page. You can set the title, the category, the tags and the content of the post. The category and the tags are selectable. You can also add a new category or several new tags. 
 
-The Author of the post is the current user. The create time and the modified time of the post are set automatically. The excerpt of the post is the first 50 characters of the content.
+The Author of the post is the current user. The create time and the modified time of the post are set automatically. The excerpt of the post is the first 50 characters of the content, if you don't set the excerpt.
 
 After you have created the post, you will be redirected to the detail page of the post.
 
@@ -215,22 +274,6 @@ STATICFILES_DIRS = [
 ```
 
 
-
-
-## Authentication
-
-Once you register a new user through Register page, this new created user will be registered into the Built-in User table of Django. The password of the user is hashed by the Django built-in hash function. The password is not stored in the database directly.
-
-The User below are available in the system. You can login with the username and the password below. Or you can also create a new user through the Register page.
-
-| username | password  | email                  | permission  |
-|----------|-----------|------------------------|-------------|
-| admin    | django123 | bigberlin100@gmail.com | superuser   |
-| Thomas   | django123 | bigberlin200@gmail.com | normal user |
-| Dylan    | django123 | bigberlin300@gmail.com | normal user   |
-| Jens     | django123 | bigberlin400@gmail.com | normal user   |
-| Florian  | django123 | bigberlin500@gmail.com | normal user   |
-
 ## Restful API
 
 The Restful API is accessible through the link of the api page in the main bar. You can see all posts, categories, tags and users through the api page.
@@ -259,46 +302,6 @@ users:
 ![](readme_picture/blog_api/05_users.png)
 ![](readme_picture/blog_api/06_users.png)
 
-## Database
-
-### blog_app
-#### Table: Post
-The Post in the Blog System
-
-Attributes
-- title: title of the post
-- body: content of the post
-- create_time: create time of the post
-- modified_time: modified time of the post
-- excerpt: if empty, the first 50 characters of body is used
-- views: how many times this post is viewed
-- category: As ForeignKey to table Category
-- tags: mapping to the name in the table Tag
-- author = As ForeignKey to table User
-
-#### Table: Tag
-Tag of post
-
-Attributes
-- name: name of tag
-
-#### Table: Category
-Category of post
-
-Attributes
-- name: name of category
-
-### blog_comment
-##### Table: Comment
-Comment of post
-
-Attributes
-- author: ForeignKey to User
-- email: email of the author
-- url: url of the author
-- text: content of the comment
-- create_time: create time of the comment
-- post: ForeignKey to Post
 
 
 ## Other
